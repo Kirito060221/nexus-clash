@@ -2,4 +2,5 @@
 #include <string.h>
 int main()
 {
+    FILE* fp;
 }
