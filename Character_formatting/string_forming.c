@@ -5,10 +5,11 @@ int handle_special_command(char word[], int *current_len, FILE *fp);
 
 int main()
 {
-  FILE* fp;
+    FILE* fp;
+    char str[1000];
+    int n, i=0;
     char fname[];
     char chr;
-    int i=0,n;
 
     fp = fopen(fname, "r");
     if(fp == NULL) {
@@ -25,6 +26,9 @@ int main()
     // 01234...と表示
     for (i = 1; i < n; i++) {
         printf("%d", i % 10);
+    }
+    printf("\n\n");
+    while (fscanf(fp, "%s", str) != EOF) {
     }
 
     return 0;
