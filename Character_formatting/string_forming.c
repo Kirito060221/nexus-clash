@@ -33,7 +33,7 @@ int main()
     }
     printf("\n\n");
     while (fscanf(fp, "%s", word) != EOF) {
-        if (word[0] == '/' && word[strlen(word) - 1 == '/']) {
+        if (word[0] == '/' && word[strlen(word) - 1] == '/') {
             handle_special_command(word, &current_len, fp);
         } else {
             // 入れていい文字と入れる文字数の比較
