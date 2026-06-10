@@ -1,9 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #define BUFSIZE 1024
-
 int handle_special_command(char word[], int* current_len, FILE* fp);
-
 int main()
 {
     FILE* fp;
@@ -13,14 +11,14 @@ int main()
     char line_buf[BUFSIZE];
     printf("整形するファイル名を入力してください：");
     scanf("%s", fname);
-    printf("１行あたりの文字数を入力してください：");
-    scanf("%d", &line_len);
-
     fp = fopen(fname, "r");
     if (fp == NULL) {
-        printf("%s file not open!\n", fname);
+        // printf("%s file not open!\n", fname);
+        printf("%s ファイルを開けません\nファイルが存在するか確認してください\n", fname);
         return -1;
     }
+    printf("１行あたりの文字数を入力してください：");
+    scanf("%d", &line_len);
 
     // 01234...と表示
     for (i = 1; i <= line_len; i++) {
@@ -28,10 +26,10 @@ int main()
     }
     printf("\n\n");
     while (fgets(line_buf, BUFSIZE, fp) != NULL) {
-        char* word = strtok(line_buf, " \t\r\n"); //タブや改行にも対応
+        char* word = strtok(line_buf, " \t\r\n"); // タブや改行にも対応
         while (word != NULL) {
             if (strlen(word) > line_len) {
-                printf("\n文中の単語%sが%dを超えています", word, line_len);
+                printf("\n文中の単語%sが%dを超えています(%d文字)", word, line_len, strlen(word));
                 return -1;
             } else if (word[0] == '/' && word[strlen(word) - 1] == '/') {
                 handle_special_command(word, &current_len, fp);
@@ -51,10 +49,10 @@ int main()
     for (i = 1; i <= line_len; i++) {
         printf("%d", i % 10);
     }
-
     return 0;
 }
 
+// 特殊文字への対応
 int handle_special_command(char word[], int* current_len, FILE* fp)
 {
     if (strcmp(word, "/par/") == 0) {
