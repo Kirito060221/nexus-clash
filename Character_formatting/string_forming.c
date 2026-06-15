@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <string.h>
 #define BUFSIZE 1024
-int handle_special_command(char word[], int* current_len, FILE* fp);
+void handle_special_command(char word[], int *current_len, FILE *fp);
 int main()
 {
-    FILE* fp;
+    FILE *fp;
     int line_len, i = 0, current_len;
     char fname[BUFSIZE];
     char chr;
@@ -12,7 +12,8 @@ int main()
     printf("整形するファイル名を入力してください：");
     scanf("%s", fname);
     fp = fopen(fname, "r");
-    if (fp == NULL) {
+    if (fp == NULL)
+    {
         // printf("%s file not open!\n", fname);
         printf("%s ファイルを開けません\nファイルが存在するか確認してください\n", fname);
         return -1;
@@ -21,20 +22,29 @@ int main()
     scanf("%d", &line_len);
 
     // 01234...と表示
-    for (i = 1; i <= line_len; i++) {
+    for (i = 1; i <= line_len; i++)
+    {
         printf("%d", i % 10);
     }
     printf("\n\n");
-    while (fgets(line_buf, BUFSIZE, fp) != NULL) {
-        char* word = strtok(line_buf, " \t\r\n"); // タブや改行にも対応
-        while (word != NULL) {
-            if (strlen(word) > line_len) {
+    while (fgets(line_buf, BUFSIZE, fp) != NULL)
+    {
+        char *word = strtok(line_buf, " \t\r\n"); // タブや改行にも対応
+        while (word != NULL)
+        {
+            if (strlen(word) > line_len)
+            {
                 printf("\n文中の単語%sが%dを超えています(%d文字)", word, line_len, strlen(word));
                 return -1;
-            } else if (word[0] == '/' && word[strlen(word) - 1] == '/') {
+            }
+            else if (word[0] == '/' && word[strlen(word) - 1] == '/')
+            {
                 handle_special_command(word, &current_len, fp);
-            } else {
-                if (strlen(word) + current_len > line_len) {
+            }
+            else
+            {
+                if (strlen(word) + current_len > line_len)
+                {
                     printf("\n");
                     current_len = 0;
                 }
@@ -46,27 +56,32 @@ int main()
     }
     printf("\n\n");
     fclose(fp);
-    for (i = 1; i <= line_len; i++) {
+    for (i = 1; i <= line_len; i++)
+    {
         printf("%d", i % 10);
     }
     return 0;
 }
 
 // 特殊文字への対応
-int handle_special_command(char word[], int* current_len, FILE* fp)
+void handle_special_command(char word[], int *current_len, FILE *fp)
 {
-    if (strcmp(word, "/par/") == 0) {
+    if (strcmp(word, "/par/") == 0)
+    {
         printf("\n\n      ");
         *current_len = 6;
-        return 1;
-    } else if (strcmp(word, "/break/") == 0) {
+        return;
+    }
+    else if (strcmp(word, "/break/") == 0)
+    {
         printf("\n");
         *current_len = 0;
-        return 1;
-    } else if (strcmp(word, "/space/") == 0) {
+        return;
+    }
+    else if (strcmp(word, "/space/") == 0)
+    {
         printf("\n\n");
         *current_len = 0;
-        return 1;
+        return;
     }
-    return 0;
 }
